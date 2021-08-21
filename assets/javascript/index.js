@@ -43,8 +43,6 @@ function generatePassword() {
     var optionNumber = confirm("Click OK if you would like your password to include numberic characters.")
     var optionSpecial = confirm("Click OK if you would like your password to include special characters.")
 
-
-
     if (optionUpper) {
       charSet += upperCase;
     }
@@ -60,6 +58,13 @@ function generatePassword() {
     if (optionSpecial) {
       charSet += symbols;
     }
+
+    if (optionUpper === false && optionLower === false && optionNumber === false && optionSpecial === false) {
+      alert("At least one character must be selected.")
+      generatePassword();
+    }
+
+
 
     var charSetLength = charSet.length;
     for (var i = 0; i < passwordLength; i++) {
