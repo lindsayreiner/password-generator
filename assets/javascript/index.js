@@ -1,6 +1,11 @@
 //DOM element for generate password button
 var generateBtn = document.querySelector("#generate");
 
+
+
+// Add click event listener to generate button/call the write password function
+generateBtn.addEventListener("click", writePassword);
+
 // Write password to the password text input field
 function writePassword() {
   var password = generatePassword();
@@ -9,40 +14,53 @@ function writePassword() {
   passwordText.value = password;
 }
 
-// Add click event listener to generate button/call the write password function
-generateBtn.addEventListener("click", writePassword);
 
-// DOM elements - don't know if I need this because we aren't referencing HTML elements to collect the password parameters
+// If/then for if confirm true
 
 
 
 
-
-//Creating array object for character functions
-
-const passwordFunc = {
-  lower: getLowerChar,
-  upper: getUpperChar,
-  number: getNumber,
-  symbol: getSymbol
-};
-
-const userChoices = {
-
-}
 
 //Functions to generate random uppercase/lowercase/numbers/special chars. Charset table used: https://www.w3schools.com/html/html_charset.asp
 
 function getLowerChar() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+  var lowerChar;
+
+  //set i equal to the starting charcode number for lower case chars, and will continue to loop through until i is 122
+  for (let i = 97; i < 123; i++) {
+
+    //giving lowerChar the values the loop is pulling
+    lowerChar += String.fromCharCode(i)
+  }
+
+  passwordChars += lowerChar;
 }
+
 
 function getUpperChar() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+  var upperChar;
+
+  //set i equal to the starting charcode number for upper case chars, and will continue to loop through until i is 89
+  for (let i = 65; i < 90; i++) {
+
+    //giving upperChar the values the loop is pulling
+    upperChar += String.fromCharCode(i)
+  }
+
+  //passwordChars are the users selected character options. Will add upperChar's. use pw length to iterate through
+  passwordChars += upperChar;
+
 }
 
+
 function getNumber() {
-  return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+  var numberChar;
+
+  for (let i = 48; i < 58; i++) {
+    numberChar += String.fromCharCode(i)
+  }
+
+  passwordChars += numberChar;
 }
 
 function getSymbol() {
@@ -51,23 +69,55 @@ function getSymbol() {
 }
 
 
+let passwordLength;
+let optionUpper;
+let optionLower;
+let optionNumber;
+let optionSpecial;
+
 //Prompts to gather users selected password criteria
+
 function generatePassword() {
-  var passwordLength = prompt('How many characters would you like your password to contain?');
-  var optionUpper = confirm('Click OK if you would like your password to include uppercase characters.');
-  var optionLower = confirm('Click OK if you would like your password to include lowercase characters.');
-  var optionNumber = confirm('Click OK if you would like your password to include numeric characters.');
-  var optionSpecial = confirm('Click OK if you would like your password to include special characters.');
+  passwordLength = prompt('How many characters would you like your password to contain?');
+  valueChecks();
+  optionUpper = confirm('Click OK if you would like your password to include uppercase characters.');
+  optionLower = confirm('Click OK if you would like your password to include lowercase characters.');
+  optionNumber = confirm('Click OK if you would like your password to include numeric characters.');
+  optionSpecial = confirm('Click OK if you would like your password to include special characters.');
+
+
 }
 
-//Function for user input to passwordLength var
+//Function for user input
 
-function lengthChoice() {
-  var length = passwordLength.prompt;
+let passwordChars;
 
-  if (length < 8 || length > 128) {
+function valueChecks() {
+  var length = passwordLength;
+
+  while (length < 8 || length > 128) {
     alert('Password must be between 8-128 characters.');
-    return;
+
+    generatePassword();
+
+    // var passwordLength = prompt('How many characters would you like your password to contain?');
+
+  }
+
+  if (optionUpper) {
+    getUpperChar();
+  }
+
+  if (optionLower) {
+    getLowerChar();
+  }
+
+  if (optionNumber) {
+    getNumber();
+  }
+
+  if (optionSpecial) {
+    getSymbol();
   }
 }
 
